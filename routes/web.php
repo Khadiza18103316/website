@@ -17,6 +17,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::group(array('namespace'=>'Backend'),function(){
+    Route::get('/ringtones','Ringtone@create');
+});
+
 'Auth'::routes([
     'register'=>false
 ]);
