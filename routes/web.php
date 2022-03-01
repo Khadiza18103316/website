@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
+// use App\Http\Controllers\Backend\RingtoneController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,11 +20,11 @@ Route::get('/', function () {
 });
 
 Route::group(array('namespace'=>'Backend'),function(){
-    Route::get('/ringtones','Ringtone@create');
+    Route::get('/ringtones','RingtoneController@create');
 });
 
 'Auth'::routes([
     'register'=>false
 ]);
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

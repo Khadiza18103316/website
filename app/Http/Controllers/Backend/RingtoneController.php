@@ -24,7 +24,7 @@ class RingtoneController extends Controller
      */
     public function create()
     {
-        //
+        return view('backend.ringtone.create');
     }
 
     /**
