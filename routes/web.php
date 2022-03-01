@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-// use App\Http\Controllers\Backend\RingtoneController;
+use App\Http\Controllers\Backend\RingtoneController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +20,7 @@ Route::get('/', function () {
 });
 
 Route::group(array('namespace'=>'Backend'),function(){
-    Route::get('/ringtones','RingtoneController@create');
+    Route::resource('/ringtones','RingtoneController');
 });
 
 'Auth'::routes([
