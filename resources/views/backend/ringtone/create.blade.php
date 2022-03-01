@@ -4,6 +4,9 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
+            @if(Session::has('message'))
+            <div class="alert alert-success">{{Session::get('message')}}</div> 
+            @endif
             <div class="card">
                 <div class="card-header">Create Ringtone</div>
 

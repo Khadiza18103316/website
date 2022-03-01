@@ -2,8 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\Backend\RingtoneController;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -27,4 +25,4 @@ Route::group(array('namespace'=>'Backend'),function(){
     'register'=>false
 ]);
 
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

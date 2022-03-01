@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Ringtone;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
 class RingtoneController extends Controller
@@ -14,7 +16,8 @@ class RingtoneController extends Controller
      */
     public function index()
     {
-        //
+        $ringtones = Ringtone::paginate(10);
+        return view ('backend.ringtone.index',compact('ringtones'));
     }
 
     /**
@@ -38,10 +41,26 @@ class RingtoneController extends Controller
         $this->validate($request,[
             'title'=>'required|min:3|max:100',
             'description'=>'required|min:3|max:500',
-            'file'=>'required|mimes:mp3',
+            'file'=>'required|mimes:mpga,wav|max:2000',
             'category'=>'required',
 
         ]);
+        $fileName= $request->file->hasName();
+        $fomat = $request->file->getOriginalExtension();
+        $size = $request->file->getSiza();
+        $request->file->move(public_path('audio'),$fileName);
+
+        $ringtone = new Ringtone;
+        $ringtone->title = $request->get('title');
+        $ringtone->slug = Str::slug($request->get('title'));
+        $ringtone->description = $request->get('description');
+        $ringtone->category_id = $request->get('category');
+        $ringtone->format = $fomat;
+        $ringtone->size = $size;
+        $ringtone->file = $fileName;
+        $ringtone->save();
+        return redirect()->back()->with('message', "Ringtone created successfully!");
+
     }
 
     /**
