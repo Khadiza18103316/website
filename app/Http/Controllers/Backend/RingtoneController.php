@@ -15,7 +15,7 @@ class RingtoneController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    {  
         $ringtones = Ringtone::paginate(10);
         return view ('backend.ringtone.index',compact('ringtones'));
     }
@@ -47,7 +47,7 @@ class RingtoneController extends Controller
         ]);
         $fileName= $request->file->hasName();
         $fomat = $request->file->getOriginalExtension();
-        $size = $request->file->getSiza();
+        $size = $request->file->getSize();
         $request->file->move(public_path('audio'),$fileName);
 
         $ringtone = new Ringtone;
@@ -82,7 +82,9 @@ class RingtoneController extends Controller
      */
     public function edit($id)
     {
-        //
+        $ringtone = Ringtone:: find($id);
+        return view ('backend.ringtone.edit',compact('ringtone'));
+
     }
 
     /**
@@ -94,7 +96,41 @@ class RingtoneController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request,[
+            'title'=>'required|min:3|max:100',
+            'description'=>'required|min:3|max:500',
+            'category'=>'required',
+
+        ]);
+        
+        $ringtone = Ringtone::find($id);
+        $fileName= $request->file;
+        $fomat = $request->formate;
+        $size = $request->size;
+        $download = $request->download;
+
+        if($request->hasFile('file')){
+        $fileName= $request->file->hasName();
+        $fomat = $request->file->getOriginalExtension();
+        $size = $request->file->getSize();
+        $request->file->move(public_path('audio'),$fileName);
+        unlink(public_path('/audio/' .$ringtone->file));
+        $download = 0;
+
+        }
+        
+        $ringtone->title = $request->get('title');
+        $ringtone->slug = Str::slug($request->get('title'));
+        $ringtone->description = $request->get('description');
+        $ringtone->category_id = $request->get('category');
+        $ringtone->format = $fomat;
+        $ringtone->size = $size;
+        $ringtone->file = $fileName;
+        $ringtone->download = $download;
+        $ringtone->save();
+        return redirect()->back()->with('message', "Ringtone updated successfully!");
+
+        
     }
 
     /**
@@ -105,6 +141,13 @@ class RingtoneController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $ringtone = Ringtone::find('$id');
+        $fileName = $ringtone->file;
+        $ringtone->delete();
+        unlink(public_path('/audio/' .$ringtone->file));
+
+        return redirect()->back()->with('message', "Ringtone deleted successfully!");
+
+
     }
 }

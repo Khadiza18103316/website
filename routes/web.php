@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\Backend\RingtoneController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,7 +19,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::group(array('namespace'=>'Backend'),function(){
+Route::group(array('namespace'=>'Backend','middleware'=>'auth'),function(){
     Route::resource('/ringtones','RingtoneController');
 });
 
