@@ -15,16 +15,20 @@ use App\Http\Controllers\Backend\RingtoneController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
-Route::group(array('namespace'=>'Backend','middleware'=>'auth'),function(){
+//Backend
+Route::group(array('namespace'=>'Backend','middleware'=>'auth'),
+function(){
     Route::resource('/ringtones','RingtoneController');
+    Route::resource('/photos','PhotoController');
 });
 
-'Auth'::routes([
-    'register'=>false
-]);
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+//Frontend
+Route::group(array('namespace'=>'Frontend'),
+function(){
+    Route::get('/','RingtoneController@index');
+    Route::get('/ringtones/{id}/{slug}','RingtoneController@show')
+    ->name('ringtones.show');
+    Route::get('/category/{id}','RingtoneController@category')
+    ->name('ringtones.category');
+});
