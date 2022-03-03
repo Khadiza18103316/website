@@ -31,4 +31,5 @@ function(){
     ->name('ringtones.show');
     Route::get('/category/{id}','RingtoneController@category')
     ->name('ringtones.category');
+    Route::get('/wallpapers','RingtoneController@wallpaper');
 });
