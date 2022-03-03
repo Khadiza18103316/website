@@ -105,7 +105,7 @@ class RingtoneController extends Controller
         
         $ringtone = Ringtone::find($id);
         $fileName= $request->file;
-        $fomat = $request->formate;
+        $fomat = $request->format;
         $size = $request->size;
         $download = $request->download;
 
